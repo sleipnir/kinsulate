@@ -19,6 +19,8 @@ spec:
         helm:
           sources:
             - name: app-helm
+              targetNamespace: my-namespace-1
+              createNamespace: true
               chart: my-chart
               repoURL: "git@github.com:corp/charts.git"
               path: charts/app-prod
@@ -31,8 +33,10 @@ spec:
       deploymentConfig:
         manifests:
           sources:
-            - name: nginx
-              files: |
+            - name: nginx-deployment
+              targetNamespace: my-namespace-2
+              createNamespace: true
+              manifest: |
                 ---
                 apiVersion: apps/v1
                 kind: Deployment
