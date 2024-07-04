@@ -25,6 +25,6 @@ config :bonny,
 
   # Operator deployment resources. These are the defaults.
   resources: %{limits: %{cpu: "200m", memory: "200Mi"}, requests: %{cpu: "200m", memory: "200Mi"}},
-  manifest_override_callback: &Mix.Tasks.Bonny.Gen.Manifest.SpawnOperatorCustomizer.override/1
+  manifest_override_callback: &Mix.Tasks.Bonny.gen.manifest.KInsulateCustomizer.override/1
 
 import_config "#{config_env()}.exs"
