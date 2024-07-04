@@ -3,7 +3,7 @@ defmodule Kinsulate.MixProject do
 
   @app :kinsulate
   @version "0.1.0"
-  @description ""
+  @description "KInsulate is Kubernetes simple Cell Basead Architecture implementation to better workload isolation."
   @site "https://kinsulate.io"
   @source_url "https://github.com/sleipnir/kinsulate"
 
