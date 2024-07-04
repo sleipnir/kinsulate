@@ -1,0 +1,57 @@
+---
+apiVersion: kinsulate.io/v1
+kind: Cell
+metadata:
+  name: my-domain-cell
+spec:
+  virtual: true
+  nodeTemplate:
+    enabled: true
+    config:
+      provider: "karpenter" # Valid are: karpenter, castai, eks, aks, gke
+      nodePoolConfigRef: karpenter-provider-config-cm
+      parameters:
+        - name: ".spec.template.metadata.labels.nodepool"
+          value: "spot"
+  services:
+    - name: my-app-1
+      deploymentConfig:
+        helm:
+          sources:
+            - name: app-helm
+              chart: my-chart
+              repoURL: "git@github.com:corp/charts.git"
+              path: charts/app-prod
+              tartetRevision: HEAD
+              releaseName: my-app-release
+              parameters:
+                - name: app.hpa.minReplicas
+                  value: "0"
+    - name: my-app-2
+      deploymentConfig:
+        manifests:
+          sources:
+            - name: nginx
+              files: |
+                ---
+                apiVersion: apps/v1
+                kind: Deployment
+                metadata:
+                  name: nginx-deployment
+                  labels:
+                    app: nginx
+                spec:
+                  replicas: 3
+                  selector:
+                    matchLabels:
+                      app: nginx
+                  template:
+                    metadata:
+                      labels:
+                        app: nginx
+                    spec:
+                      containers:
+                      - name: nginx
+                        image: nginx:1.14.2
+                        ports:
+                        - containerPort: 80
