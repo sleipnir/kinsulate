@@ -5,6 +5,7 @@ metadata:
   name: my-domain-cell
 spec:
   virtual: true
+  affinityStrategy: "required" # Valid are: prefered, required
   nodeTemplate:
     enabled: true
     config:
